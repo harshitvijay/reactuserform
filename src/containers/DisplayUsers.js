@@ -14,17 +14,26 @@ const DisplayUsers = (props) => {
           <th>DOB</th>
           <th>Education</th>
           <th>Gender</th>
+          <th>Edit Row</th>
+          <th>Delete Row</th>
         </tr>
-        {props.data.map((user) => {
+        {props.data.map((user, index) => {
+          let temp = ++count
           return (
-            <tr>
-              <td>{++count}</td>
+            <tr key={temp}>
+              <td>{temp}</td>
               <td>{user.name}</td>
               <td>{user.email}</td>
               <td>{user.phone}</td>
               <td>{user.date}</td>
               <td>{user.education}</td>
               <td>{user.gender}</td>
+              <td>
+                <button onClick={() => props.editRow(index)}>Edit</button>
+              </td>
+              <td>
+                <button onClick={() => props.deleteRow(index)}>Delete</button>
+              </td>
             </tr>
           )
         })}

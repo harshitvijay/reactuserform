@@ -94,13 +94,23 @@ export class Form extends Component {
     if (this.handleValidation()) {
       let { users, data } = this.state
       data = this.state.fields
-      users.push(data)
+
+      let value = document.getElementById('submit').value.split(' ')
+      if (value[0] === 'Edit') {
+        users.splice(value[1], 1, data)
+      } else {
+        users.push(data)
+      }
+      console.log(users)
       this.setState({
         fields: {},
         errors: {},
         users: users,
       })
       alert('Form submitted')
+      document.getElementById('submit').innerHTML = 'Send'
+      document.getElementById('submit').value = 'Submit'
+      this.form.reset()
     } else {
       alert('Form has errors.')
     }
@@ -112,11 +122,35 @@ export class Form extends Component {
     this.setState({ fields })
   }
 
+  deleteRow = (index) => {
+    let { users } = this.state
+    users.splice(index, 1)
+    this.setState({
+      fields: {},
+      errors: {},
+      users: users,
+    })
+  }
+  editRow = (index) => {
+    let { users } = this.state
+    let data = users[index]
+    this.setState({
+      fields: data,
+      errors: {},
+      users: users,
+    })
+    document.getElementById('submit').innerHTML = 'Edit'
+    document.getElementById('submit').value = `Edit ${index}`
+  }
   render() {
     return (
       <div className='outer'>
         <div className='form'>
-          <form name='contactform' onSubmit={this.contactSubmit}>
+          <form
+            name='contactform'
+            onSubmit={this.contactSubmit}
+            ref={(form) => (this.form = form)}
+          >
             <div className='fields'>
               <fieldset>
                 <h2 id='main-heading'> User Details Form</h2>
@@ -199,13 +233,17 @@ export class Form extends Component {
                   }}
                 />
                 <button className='field' id='submit' value='Submit'>
-                  Send Message
+                  Send
                 </button>
               </fieldset>
             </div>
           </form>
         </div>
-        <DisplayUsers data={this.state.users} />
+        <DisplayUsers
+          data={this.state.users}
+          deleteRow={this.deleteRow}
+          editRow={this.editRow}
+        />
       </div>
     )
   }

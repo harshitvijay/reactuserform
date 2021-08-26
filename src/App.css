@@ -36,11 +36,12 @@ fieldset {
   height: 15%;
   padding: auto;
 }
+
 .displayData {
-  width: 40%;
-  height: 40%;
+  width: 49%;
+  height: 48%;
   border: 2px solid black;
-  padding: 2rem;
+  padding: 3rem;
   float: right;
   margin: 100px 50px 0px 50px;
   position: relative;
@@ -53,7 +54,7 @@ td {
   border: 2px solid black;
   text-align: center;
   border-collapse: collapse;
-  padding: 5px;
+  padding: 8px;
 }
 table tr {
   border: 2px solid red;
