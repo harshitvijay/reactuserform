@@ -13,7 +13,7 @@ code {
 }
 .outer {
   border: 2px solid black;
-  width: 100rem;
+  width: 100vw;
   display: flex;
 }
 .form {
@@ -24,8 +24,8 @@ code {
   border: 2px solid black;
 }
 .fields {
-  padding: 2rem;
-  margin: 10%;
+  padding: 1rem;
+  margin: 1rem;
 }
 fieldset {
   width: 30rem;
@@ -43,7 +43,7 @@ fieldset {
   border: 2px solid black;
   padding: 0.5rem;
   float: right;
-  margin: 100px 50px 0px 50px;
+  margin: 23px 266px 0px 7px;
   position: relative;
   top: 40px;
 }
