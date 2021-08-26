@@ -19,6 +19,7 @@ const LabelSelect = (props) => {
           })}
         </select>
       </label>
+      <span className='error'>{props.data.error}</span>
     </div>
   )
 }

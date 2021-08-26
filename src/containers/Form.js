@@ -61,20 +61,22 @@ export class Form extends Component {
       formIsValid = false
       errors['phone'] = 'Cannot be empty'
     }
-    if (fields['phone'].length !== 10) {
-      formIsValid = false
-      errors['phone'] = 'Phone number must be of 10 digit'
-    }
+    if (typeof fields['phone'] !== 'undefined') {
+      if (fields['phone'].length !== 10) {
+        formIsValid = false
+        errors['phone'] = 'Phone number must be of 10 digit'
+      }
 
-    if (!fields['phone'].match(/^[0-9]*$/)) {
-      formIsValid = false
-      errors['phone'] = 'Only Numbers'
+      if (!fields['phone'].match(/^[0-9]*$/)) {
+        formIsValid = false
+        errors['phone'] = 'Only Numbers'
+      }
     }
 
     // Date
     if (!fields['date']) {
       formIsValid = false
-      errors['date'] = 'Date cannot be Empty!'
+      errors['date'] = 'Cannot be Empty!'
     } else {
       let currentDate = new Date().toLocaleDateString()
       let temp = fields['date'].replaceAll('-', '/').split('/')
@@ -84,6 +86,15 @@ export class Form extends Component {
         errors['date'] = "Date Cannot be Today's date"
         formIsValid = false
       }
+    }
+
+    if (!fields['education']) {
+      formIsValid = false
+      errors['education'] = 'Cannot be Empty'
+    }
+    if (!fields['gender']) {
+      formIsValid = false
+      errors['gender'] = 'Cannot be Empty'
     }
     this.setState({ errors: errors })
     return formIsValid
@@ -101,7 +112,6 @@ export class Form extends Component {
       } else {
         users.push(data)
       }
-      console.log(users)
       this.setState({
         fields: {},
         errors: {},
@@ -194,17 +204,18 @@ export class Form extends Component {
                     error: this.state.errors['date'],
                   }}
                 />
-
+                <br />
                 <LabelSelect
                   data={{
                     label: 'Education:',
                     name: 'education',
                     value: this.state.fields['education'],
                     onChange: this.handleChange,
-                    optionMap: [10, 12, 'Graduation', 'Post-Graduation'],
+                    optionMap: ['NA', 10, 12, 'Graduation', 'Post-Graduation'],
+                    error: this.state.errors['education'],
                   }}
                 />
-
+                <br />
                 <LabelRadio
                   data={{
                     label: 'Male',
@@ -232,6 +243,8 @@ export class Form extends Component {
                     name: 'gender',
                   }}
                 />
+                <span className='error'>{this.state.errors['gender']}</span>
+                <br />
                 <button className='field' id='submit' value='Submit'>
                   Send
                 </button>
