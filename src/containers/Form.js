@@ -113,14 +113,21 @@ export class Form extends Component {
         users.push(data)
       }
       this.setState({
-        fields: {},
+        fields: {
+          name: '',
+          email: '',
+          phone: '',
+          date: '',
+          gender: '',
+          education: '',
+        },
         errors: {},
         users: users,
       })
       alert('Form submitted')
       document.getElementById('submit').innerHTML = 'Send'
       document.getElementById('submit').value = 'Submit'
-      this.form.reset()
+      // this.form.reset()
     } else {
       alert('Form has errors.')
     }
