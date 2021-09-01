@@ -14,6 +14,7 @@ export class Form extends Component {
       users: [],
     }
   }
+
   handleValidation() {
     let fields = this.state.fields
     let errors = {}
@@ -135,8 +136,15 @@ export class Form extends Component {
 
   handleChange = (e) => {
     let fields = this.state.fields
+    let users = this.state.users
+    const newUsers = users.map((user) => Object.assign({}, user))
+
     fields[e.target.name] = e.target.value
-    this.setState({ fields })
+    this.setState({
+      fields: fields,
+      errors: {},
+      users: newUsers,
+    })
   }
 
   deleteRow = (index) => {
@@ -252,7 +260,12 @@ export class Form extends Component {
                 />
                 <span className='error'>{this.state.errors['gender']}</span>
                 <br />
-                <button className='field' id='submit' value='Submit'>
+                <button
+                  type='submit'
+                  className='field'
+                  id='submit'
+                  value='Submit'
+                >
                   Send
                 </button>
               </fieldset>
