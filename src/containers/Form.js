@@ -3,6 +3,10 @@ import Input from '../components/Input'
 import LabelSelect from '../components/LabelSelect'
 import LabelRadio from '../components/LabelRadio'
 import DisplayUsers from './DisplayUsers'
+import store from '../redux/store'
+
+import { connect } from 'react-redux'
+import { addUser, deleteUser, editUser } from '../redux/actions/actions'
 
 export class Form extends Component {
   constructor(props) {
@@ -11,7 +15,6 @@ export class Form extends Component {
     this.state = {
       fields: {},
       errors: {},
-      users: [],
     }
   }
 
@@ -104,14 +107,12 @@ export class Form extends Component {
   contactSubmit = (e) => {
     e.preventDefault()
     if (this.handleValidation()) {
-      let { users, data } = this.state
-      data = this.state.fields
-
+      let data = this.state.fields
       let value = document.getElementById('submit').value.split(' ')
       if (value[0] === 'Edit') {
-        users.splice(value[1], 1, data)
+        this.props.editUser(value[1], data)
       } else {
-        users.push(data)
+        this.props.addUser(data)
       }
       this.setState({
         fields: {
@@ -123,7 +124,6 @@ export class Form extends Component {
           education: '',
         },
         errors: {},
-        users: users,
       })
       alert('Form submitted')
       document.getElementById('submit').innerHTML = 'Send'
@@ -136,33 +136,25 @@ export class Form extends Component {
 
   handleChange = (e) => {
     let fields = this.state.fields
-    let users = this.state.users
-    const newUsers = users.map((user) => Object.assign({}, user))
-
     fields[e.target.name] = e.target.value
     this.setState({
       fields: fields,
       errors: {},
-      users: newUsers,
     })
   }
 
   deleteRow = (index) => {
-    let { users } = this.state
-    users.splice(index, 1)
+    this.props.deleteUser(index)
     this.setState({
       fields: {},
       errors: {},
-      users: users,
     })
   }
   editRow = (index) => {
-    let { users } = this.state
-    let data = users[index]
+    let temp = store.getState().users.users
     this.setState({
-      fields: data,
+      fields: temp[index],
       errors: {},
-      users: users,
     })
     document.getElementById('submit').innerHTML = 'Edit'
     document.getElementById('submit').value = `Edit ${index}`
@@ -272,14 +264,13 @@ export class Form extends Component {
             </div>
           </form>
         </div>
-        <DisplayUsers
-          data={this.state.users}
-          deleteRow={this.deleteRow}
-          editRow={this.editRow}
-        />
+        <DisplayUsers deleteRow={this.deleteRow} editRow={this.editRow} />
       </div>
     )
   }
 }
 
-export default Form
+// export default Form
+
+export default connect(null, { addUser, deleteUser, editUser })(Form)
+// export default AddTodo;
