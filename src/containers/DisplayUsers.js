@@ -1,7 +1,8 @@
 import React from 'react'
-
+import store from '../redux/store'
 const DisplayUsers = (props) => {
-  let count = 0
+  const users = store.getState().users.users
+  const newUsers = users.map((user) => Object.assign({}, user))
   return (
     <div className='displayData'>
       <h2 id='display-heading'>Display Data</h2>
@@ -17,11 +18,10 @@ const DisplayUsers = (props) => {
           <th>Edit Row</th>
           <th>Delete Row</th>
         </tr>
-        {props.data.map((user, index) => {
-          let temp = ++count
+        {newUsers.map((user, index) => {
           return (
-            <tr key={temp}>
-              <td>{temp}</td>
+            <tr key={user.id}>
+              <td>{index + 1}</td>
               <td>{user.name}</td>
               <td>{user.email}</td>
               <td>{user.phone}</td>
